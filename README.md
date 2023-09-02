@@ -12,3 +12,10 @@ ESPHome device is also configured to monitor a water flow sensor using the pulse
 
 ...
 
+## Home Assistant Remote Access via Tailscale
+
+**Useful if your ISP only provides CG-NAT service and port forwarding does not work**
+
+...
+
+
