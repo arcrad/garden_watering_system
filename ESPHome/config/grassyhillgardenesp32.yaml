@@ -1,0 +1,85 @@
+esphome:
+  name: grassyhillgardenesp32
+  friendly_name: GrassyHillGardenESP32
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "q+ZNPV54Q1tZ6R8RSKmuNlZqVqO1HJgqIfk49B+iRAw="
+
+ota:
+  password: "6f67922f6ce7058e8d76b7eb690b0b99"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Grassyhillgardenesp32"
+    password: "ppGutPHbzs6N"
+
+captive_portal:
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+    on_time:
+      - cron: '0 0 0-11 * * *'
+        then:
+          - logger.log: "Auto turn off all water switches (0000-1100)"
+          - switch.turn_off: water_switch_1
+          - switch.turn_off: water_switch_2
+          - switch.turn_off: water_switch_3
+          - switch.turn_off: water_switch_4
+          - switch.turn_off: water_switch_5
+      - cron: '0 0 15-23 * * *'
+        then:
+          - logger.log: "Auto turn off all water switches (1500-2300)"
+          - switch.turn_off: water_switch_1
+          - switch.turn_off: water_switch_2
+          - switch.turn_off: water_switch_3
+          - switch.turn_off: water_switch_4
+          - switch.turn_off: water_switch_5
+
+switch:
+  - platform: gpio
+    id: water_switch_1
+    name: "Water Valve Switch 1"
+    pin: 18
+    #interlock: [water_switch_2, water_switch_3, water_switch_4, water_switch_5]
+  - platform: gpio
+    id: water_switch_2
+    name: "Water Valve Switch 2"
+    pin: 19
+    #interlock: [water_switch_1, water_switch_3, water_switch_4, water_switch_5]
+  - platform: gpio
+    id: water_switch_3
+    name: "Water Valve Switch 3"
+    pin: 21
+    #interlock: [water_switch_1, water_switch_2, water_switch_4, water_switch_5]
+  - platform: gpio
+    id: water_switch_4
+    name: "Water Valve Switch 4"
+    pin: 22
+    #interlock: [water_switch_1, water_switch_2, water_switch_3, water_switch_5]
+  - platform: gpio
+    id: water_switch_5
+    name: "Water Valve Switch 5"
+    pin: 23
+    #interlock: [water_switch_1, water_switch_2, water_switch_3, water_switch_4]
+
+sensor:
+  - platform: pulse_counter
+    id: water_flow_pulse_counter
+    pin: 4
+    name: "Water Flow Pulse Counter"
+    update_interval: 30s
