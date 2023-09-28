@@ -21,11 +21,16 @@ ota:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-
+  manual_ip:
+    static_ip: 192.168.5.32
+    gateway: 192.168.4.1
+    subnet: 255.255.252.0
+  power_save_mode: none
+  reboot_timeout: 5min
   # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Grassyhillgardenesp32"
-    password: "ppGutPHbzs6N"
+  #ap:
+  #  ssid: "Grassyhillgardenesp32"
+  #  password: "ppGutPHbzs6N"
 
 captive_portal:
 
