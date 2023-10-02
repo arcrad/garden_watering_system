@@ -85,6 +85,6 @@ switch:
 sensor:
   - platform: pulse_counter
     id: water_flow_pulse_counter
-    pin: 4
+    pin: 27
     name: "Water Flow Pulse Counter"
     update_interval: 30s
